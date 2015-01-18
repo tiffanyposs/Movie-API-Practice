@@ -1,0 +1,203 @@
+ <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    header{
+        text-align: center;
+        font-size: 2.2em;
+        width: 100%;
+        height: 10%;
+        background-color: red;
+        margin-bottom: 5%;
+    }
+
+    h2{
+        padding-top: 1%;
+    }
+
+    #button button{
+        width: 100px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    #button{
+        float: left;
+        margin: 15% 0 0 18%;
+    }
+
+    #next{
+        display: block;
+    }
+
+    #previous{}
+
+    #card{
+        background-color: blue;
+        width: 50%;
+        height: 65%;
+        margin: 0 auto;
+        border-radius: 20px;
+    }
+
+    #poster{
+        float: left;
+        margin: 3% 0 0 4%;
+        position: absolute;
+        border: 3px solid black;
+    }
+
+    #info{
+        width: 17%;
+        height: 30%;
+        margin: 10% 0 0 25%;
+        position: absolute;
+        font-size: 1.5em;
+        background-color: red;
+        padding: 2%;
+    }
+
+/*    #section{
+        width: 100%;
+        height: 800px;
+    }
+
+
+    #button{
+        width: 100%;
+        height: 60px;
+        float: left;
+        margin-left: 10%;
+        margin-top: 20%;
+    }
+
+
+
+    #next{}
+
+    #card{
+        margin: 0 auto;
+        text-align: center;
+        width: 65%;
+        height: 700px;
+        background-color: red;
+    }
+
+    #poster{
+        display: inline-block;
+
+    }
+
+
+    #info{
+        height: 600px;
+        width: 500px;
+        text-align: left;
+        display: inline-block;
+    }
+
+    img{
+        height: 80%;
+        border: 10px solid black;
+    }
+*/
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>My Favorite Movies</h2>
+    </header>
+
+<div id = "section">
+    <div id = "button">
+        <button id = "previous">previous</button>
+        <button id = "next">next</button>
+    </div>
+
+<div id = "card">
+    <div id = "poster"></div>
+
+   <div id = "info">
+            <p id="title"></p>
+            <p id="year"></p>
+            <p id="rated"></p>
+            <p id="released"></p>
+            <p id="runtime"></p>
+    </div>
+</div>
+</div>
+
+    <script>
+        var movies = ["Kill Bill: Vol. 1", "Kill Bill: Vol. 2", "Pulp Fiction", "Amélie", "Fight Club", 
+        "Forrest Gump", "Goodfellas", "Anchorman: The Legend of Ron Burgundy", "Snatch.", "Some Like it Hot",
+        "Inglorious Bastards", "Indiana Jones and the Last Crusade", "Lock, Stock and Two Smoking Barrels",
+        "Jurassic Park", "Fargo", "Trainspotting", "Toy Story", "Y Tu Mamá También"]
+        
+
+        var next_button = document.getElementById('next');
+        var i = 0;
+
+        //for on load, must declare img outside of click
+        var counter = 0
+        var img = document.createElement('img');
+
+        next_button.addEventListener('click', function(){
+            var input_box = document.querySelector('input');
+            var movie = movies[i];
+            //i resets to 0 when it gets to the end of the array of movies
+            if(i < movies.length-1){
+                i++;
+            }
+            else{
+                i = 0
+            }
+
+            //encodeURI sets it up with % etc to format it for searching
+            var encoded = encodeURI(movie);
+            console.log(encoded)
+
+        var url = "http://omdbapi.com/?t=" + encoded;
+        var xhr = new XMLHttpRequest();
+
+
+
+        xhr.addEventListener('load', function(e) {
+      
+        // xhr.responseText - this is what get's the shit
+        var d = xhr.responseText;
+        var parsed = JSON.parse(d);
+
+        //this grabs the img tag from the html file then sets
+        //the src to the parsed JSON to the key value Poster   
+        var poster = document.getElementById('poster');        
+        counter++;
+
+            if(counter == 1){
+            poster.appendChild(img);
+            }
+
+        img.src = parsed.Poster;
+
+        var title = document.getElementById('title');
+        title.innerText = parsed.Title;
+        var year = document.getElementById('year');
+        year.innerText = parsed.Year;
+        var rated = document.getElementById('rated');
+        rated.innerText = parsed.Rated;
+        var released = document.getElementById('released');
+        released.innerText = parsed.Released;
+        var runtime = document.getElementById('runtime');
+        runtime.innerText = parsed.Runtime;
+    })
+        // this just tells you where to go get the data. 
+        xhr.open("GET", url);
+        xhr.send();
+
+    })
+    </script>
+</body>
+</html>
