@@ -4,6 +4,9 @@
     <title>Document</title>
     <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
     <style>
+
+/*    var colors = ["#383233", "#423c3d", "#4c4647", "#565051", "#6a6465", "#746e6f", "#7f7879",
+     "#888283", "#928c8d", "#9c9697", "#a6a0a1", "#b0aaab"];*/
     body{
         background-image: url("../movie_two.jpg");
         margin: 0 auto;
@@ -98,49 +101,57 @@
 
     </style>
 </head>
-
-
 <body>
     <header>
         <h2>My Favorite Movies</h2>
     </header>
 
-    <div id = "wrapper">
-        <div id = "card_one">
-            <h3 id="title_one"></h3>
-            <div id = "poster_one"></div>
-          
-           <div id = "info_one">
-                <p id="year_one"></p>
-                <p id="rated_one"></p>
-                <p id="released_one"></p>
-                <p id="runtime_one"></p>
-                <p id="awards_one"></p>
-            </div>
-        </div>
 
-        <div id = "card_two">
-            <h3 id="title_two"></h3>
-            <div id = "poster_two"></div>
 
-            <div id = "info_two">
-                <p id="year_two"></p>
-                <p id="rated_two"></p>
-                <p id="released_two"></p>
-                <p id="runtime_two"></p>
-                <p id="awards_two"></p>
-            </div>
-        </div>
+<div id = "wrapper">
+<div id = "card_one">
+    <h3 id="title_one"></h3>
 
-        <div id = "section">
-            <div id = "button">
-                <div id = "next"></div>
-            </div>
-        </div>
 
+    <div id = "poster_one"></div>
+  
+   <div id = "info_one">
+
+            <p id="year_one"></p>
+            <p id="rated_one"></p>
+            <p id="released_one"></p>
+            <p id="runtime_one"></p>
+            <p id="awards_one"></p>
+    </div>
+</div>
+
+<div id = "card_two">
+    <h3 id="title_two"></h3>
+    <div id = "poster_two"></div>
+
+   <div id = "info_two">
+
+            <p id="year_two"></p>
+            <p id="rated_two"></p>
+            <p id="released_two"></p>
+            <p id="runtime_two"></p>
+            <p id="awards_two"></p>
+    </div>
+</div>
+
+<div id = "section">
+    <div id = "button">
+        <div id = "next"></div>
     </div>
 
+</div>
+
+
+
+</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 <script>
 //START THE SECTION THAT SELECTS THE CARDS AND SCROLLES THROUGH THEM.
 $(document).ready(function(){
@@ -152,6 +163,7 @@ $(document).ready(function(){
             console.log('Enter was pressed');
         }
     })
+
 
     var picker = true
     var card_one = $("#card_one");
@@ -168,6 +180,7 @@ $(document).ready(function(){
         if(index >= colors.length){
             index = 0;
         }
+
         if(picker === true){
             card_two.css({'background-color' : colors[index]})
             startAnimation();
@@ -277,6 +290,7 @@ $(document).ready(function(){
         counter++;
 
     })// END LOAD ONE
+
 
 
     //START LOAD TWO
