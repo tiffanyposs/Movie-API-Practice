@@ -1,0 +1,315 @@
+ <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    header{
+        text-align: center;
+        font-size: 2.2em;
+        width: 100%;
+        height: 10%;
+        background-color: red;
+        margin-bottom: 5%;
+    }
+
+    h2{
+        padding-top: 1%;
+    }
+
+    #button button{
+        width: 100px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    #button{
+        float: left;
+        margin: 200px 0 0 250px;
+    }
+
+    #next{
+        display: block;
+    }
+
+    #previous{}
+
+    #card_one{
+        background-color: blue;
+        width: 600px;
+        height: 500px;
+        margin: 0 auto;
+        border-radius: 20px;
+        position: absolute;
+    }
+
+    #card_two{
+        background-color: blue;
+        width: 600px;
+        height: 500px;
+        margin-top: -800px;
+        border-radius: 20px;
+        position: absolute;
+    }
+
+    #poster_one, #poster_two{
+        float: left;
+        margin: 100px 0 0 100px;
+        position: absolute;
+        border: 3px solid black;
+    }
+
+    #info_one, #info_two{
+        width: 200px;
+        height: 300px;
+        margin: 30px 0 0 200px;
+        position: absolute;
+        font-size: 1.5em;
+        background-color: red;
+        padding: 50px;
+    }
+    
+    #wrapper{
+        text-align: center;
+        margin: 0 auto;
+        width: 700px;
+    }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>My Favorite Movies</h2>
+    </header>
+
+<div id = "section">
+    <div id = "button">
+        <button id = "next">next</button>
+    </div>
+
+<div id = "wrapper">
+<div id = "card_one">
+    <div id = "poster_one"></div>
+
+   <div id = "info_one">
+            <p id="title_one"></p>
+            <p id="year_one"></p>
+            <p id="rated_one"></p>
+            <p id="released_one"></p>
+            <p id="runtime_one"></p>
+    </div>
+</div>
+
+<div id = "card_two">
+    <div id = "poster_two"></div>
+
+   <div id = "info_two">
+            <p id="title_two"></p>
+            <p id="year_two"></p>
+            <p id="rated_two"></p>
+            <p id="released_two"></p>
+            <p id="runtime_two"></p>
+    </div>
+</div>
+</div>
+
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+    <script>
+
+
+
+
+//START THE SECTION THAT SELECTS THE CARDS AND SCROLLES THROUGH THEM.
+$(document).ready(function(){
+
+    var picker = true
+    var card_one = $("#card_one");
+    var card_two = $("#card_two");
+
+    //for colors
+    var colors = ["red", "orange", "yellow", "green", "blue"];
+    var index = 0;
+
+//this is the next button on click
+  $("#next").click(function(){
+
+    if(index >= colors.length){
+        index = 0;
+    }
+
+
+if(picker === true){
+    card_two.css({'background-color' : colors[index]})
+    startAnimation();
+    function startAnimation(){
+      card_one.animate({marginTop: "100%"},"slow", hideAnimation);
+    }
+    function hideAnimation(){
+    card_two.animate({marginTop: "0"}, "slow");
+    card_one.css({'margin-top':'-800px'})
+    }
+    picker = false;
+    index++;
+}
+
+else{
+    card_one.css({'background-color' : colors[index]})
+    startAnimationTwo();
+    function startAnimationTwo(){
+    card_two.animate({marginTop: "100%"},"slow", hideAnimationTwo);
+    }
+    function hideAnimationTwo(){
+    card_one.animate({marginTop: "0"}, "slow");
+    card_two.css({'margin-top':'-800px'})
+    }
+    picker = true;
+    index++;
+}
+
+
+
+  });
+});
+
+
+//this will slide the first slide upon load
+$( document ).ready(function() {
+$( "#next" ).click();
+});
+
+
+//START THE SECTION THAT ACCESSES THE MOVIES AND PLACES THEM IN THE SLIDING CARDS
+         var movies = ["Kill Bill: Vol. 1", "Kill Bill: Vol. 2", "Pulp Fiction", "Amélie", "Fight Club", 
+        "Forrest Gump", "Goodfellas", "Anchorman: The Legend of Ron Burgundy", "Snatch.", "Some Like it Hot",
+        "Inglorious Bastards", "Indiana Jones and the Last Crusade", "Lock, Stock and Two Smoking Barrels",
+        "Jurassic Park", "Fargo", "Trainspotting", "Toy Story", "Y Tu Mamá También"]
+        
+        var two = 0;
+        var one = 0;
+        var load_counter = 0
+
+        //for on load, must declare img outside of click
+        var counter = 0
+        var img_one = document.createElement('img')
+        var img_two = document.createElement('img');
+
+
+            $("#next").click(function(){
+
+            var movie_one = movies[one];          
+            var movie_two = movies[two];
+
+
+            //this makes sure the movies reset at the end
+            if(load_counter === 0){
+                load_counter++;
+                two++;
+                one++;
+            }
+            else if(one < movies.length-1 && two < movies.length-1){
+                one++;
+                two++;
+            }
+            else{
+                one = 0;
+                two = 0;
+                load_counter = 0;
+            }
+
+
+            //encodeURI sets it up with % etc to format it for searching
+            var encoded_one = encodeURI(movie_one);
+            var encoded_two = encodeURI(movie_two);
+
+        var url_one = "http://omdbapi.com/?t=" + encoded_one;
+        var url_two = "http://omdbapi.com/?t=" + encoded_two;
+
+        var xhr_one = new XMLHttpRequest();
+        var xhr_two = new XMLHttpRequest();
+
+    //START LOAD ONE
+    xhr_one.addEventListener('load', function(e) {
+      
+        // xhr.responseText - this is what get's the shit
+        var d = xhr_one.responseText;
+        var parsed = JSON.parse(d);
+
+        //this grabs the img tag from the html file then sets
+        //the src to the parsed JSON to the key value Poster   
+        var poster_one = document.getElementById('poster_one');        
+        poster_one.appendChild(img_one);
+        img_one.src = parsed.Poster;
+
+        $('#title_one').text(parsed.Title);
+        $('#year_one').text(parsed.Year);
+        $('#rated_one').text(parsed.Rated);
+        $('#released_one').text(parsed.Released);
+        $('#runtime_one').text(parsed.Runtime);
+
+        counter++;
+    })// END LOAD ONE
+
+
+
+    //START LOAD TWO
+    xhr_two.addEventListener('load', function(e) {
+      
+        // xhr.responseText - this is what get's the shit
+        var d = xhr_two.responseText;
+        var parsed = JSON.parse(d);
+
+        //this grabs the img tag from the html file then sets
+        //the src to the parsed JSON to the key value Poster   
+        var poster_two = document.getElementById('poster_two');        
+        poster_two.appendChild(img_two);
+        img_two.src = parsed.Poster;
+
+        $('#title_two').text(parsed.Title);
+        $('#year_two').text(parsed.Year);
+        $('#rated_two').text(parsed.Rated);
+        $('#released_two').text(parsed.Released);
+        $('#runtime_two').text(parsed.Runtime);
+
+        counter++;
+    })// end load two
+
+
+        // THIS SENDS THE DATA
+        xhr_one.open("GET", url_one);        
+        xhr_two.open("GET", url_two);
+        xhr_one.send();
+        xhr_two.send();
+
+    }) // end button
+
+
+        // $('#title_two').text(parsed.Title);
+        // $('#year_two').text(parsed.Year);
+        // $('#rated_two').text(parsed.Rated);
+        // $('#released_two').text(parsed.Released);
+        // $('#runtime_two').text(parsed.Runtime);
+
+
+
+
+        //  var title = document.getElementById('title_two');
+        // title.innerText = parsed.Title;
+        // var year = document.getElementById('year_two');
+        // year.innerText = parsed.Year;
+        // var rated = document.getElementById('rated_two');
+        // rated.innerText = parsed.Rated;
+        // var released = document.getElementById('released_two');
+        // released.innerText = parsed.Released;
+        // var runtime = document.getElementById('runtime_two');
+        // runtime.innerText = parsed.Runtime;
+    </script>
+</body>
+</html>
+
+
+
